@@ -20,7 +20,6 @@
 #include "main.h"
 #include "cmsis_os.h"
 #include "can.h"
-#include "tim.h"
 #include "usart.h"
 #include "gpio.h"
 
@@ -42,7 +41,7 @@ extern uint8_t motor_state;
 #include "IMPULSE.h"
 extern PULSE PULSE_data[4];
 
-float CH3;
+float CH3,CH1,CH2;
 
 #include "CONTROLLER0.h"
 
@@ -116,27 +115,28 @@ int main(void)
   MX_CAN1_Init();
   MX_USART3_UART_Init();
   MX_CAN2_Init();
-  MX_TIM14_Init();
-  MX_TIM6_Init();
   /* USER CODE BEGIN 2 */
 	
 	HAL_UART_Receive_IT(&huart3,aRxBuffer3,1);	
   can_filter_init();
-  HAL_CAN_Start(&hcan1);              
-  HAL_CAN_ActivateNotification(&hcan1,CAN_IT_RX_FIFO0_MSG_PENDING); 
-  HAL_CAN_Start(&hcan2);              
-  HAL_CAN_ActivateNotification(&hcan2,CAN_IT_RX_FIFO0_MSG_PENDING); 
+
+
 	PULSE_INIT(8,4,2,1,2,2,0,0,0,0,2,2);
 	//void PULSE_INIT(int X_N,int Y_N,int X_MAX, int Y_MAX,float sx_RF, float sy_RF,float sx_RB, 
 	//float sy_RB,float sx_LF, float sy_LF,float sx_LB, float sy_LB);
-	HAL_TIM_Base_Start_IT(&htim14);
+	//HAL_TIM_Base_Start_IT(&htim14);
 	
  
 
-	CanMOTOR_Init();
+  CanMOTOR_Init();
 	CONTROLLER0_initialize();
+	rtU.R_LENGTH = 0;
+	rtU.L_LENGTH = 0;
 	
-	HAL_TIM_Base_Start_IT(&htim6);
+	// 200 - 1800 x     800 - 1100   CH2
+	//  56 - 1656 y mid 700- 900 CH1
+	
+//	HAL_TIM_Base_Start_IT(&htim6);
  
   /* USER CODE END 2 */
 
@@ -247,39 +247,8 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
     HAL_IncTick();
   }
   /* USER CODE BEGIN Callback 1 */
-	if (htim == (&htim14)){
-		 
-     CH3 = map(0,0.010,300,1200,SBUS_CH.CH3);
-		 if(CH3>0.01){
-			CH3 = 0.01;
-		 }
-		 PULSE_UPDATE(CH3);
+
 	
-	}
-	
-	if(htim == (&htim6)){
-
-		
-		CONTROLLER0_step();
-    rtU.RF_X = PULSE_data[RF].TIME_X_value;
-    rtU.RF_Y = PULSE_data[RF].TIME_Y_value;
-
-    rtU.RB_X = PULSE_data[RB].TIME_X_value;
-    rtU.RB_Y = PULSE_data[RB].TIME_Y_value;
-
-    rtU.LF_X = PULSE_data[LF].TIME_X_value;
-    rtU.LF_Y = PULSE_data[LF].TIME_Y_value;
-
-    rtU.LB_X = PULSE_data[LB].TIME_X_value;
-    rtU.LB_Y = PULSE_data[LB].TIME_Y_value;
-    
-		stauts = 1;
-		
-		//CanComm_SendControlPara(1,0,7.5,0.2,0,0x07,hcan2);
-
-		
-//
-	}
   /* USER CODE END Callback 1 */
 }
 

@@ -55,7 +55,7 @@ float map(float x1, float y1, float x2, float y2, float n) {
     // map 的放缩
 		float	result = (n - x2) / (y2 -x2) * (y1-x1);
 	
-	  if(result < 0) result = 0;
+	 // if(result < 0) result = 0;
     return result;
 }
 
@@ -69,7 +69,10 @@ void PULSE_UPDATE(float spd){
     if(PULSE_data[RF].TIME_X >= PULSE_data[RF].TIME_X_N*4/4 * 1){
         PULSE_data[RF].TIME_X = 0;
         PULSE_data[RF].TIME_X_value = 0;
-    }
+    }else if(PULSE_data[RF].TIME_X < 0){
+				PULSE_data[RF].TIME_X = PULSE_data[RF].TIME_X_N;
+        PULSE_data[RF].TIME_X_value = 0;
+		}
     else if(PULSE_data[RF].TIME_X <= (PULSE_data[RF].TIME_X_N/4 *1) ){
         float k = PULSE_data[RF].TIME_X_MAX/(PULSE_data[RF].TIME_X_N/4);
         PULSE_data[RF].TIME_X_value = PULSE_data[RF].TIME_X * k;
@@ -90,7 +93,10 @@ void PULSE_UPDATE(float spd){
     if(PULSE_data[RF].TIME_Y >= PULSE_data[RF].TIME_Y_N*4/4 * 1){
         PULSE_data[RF].TIME_Y = 0;
         PULSE_data[RF].TIME_Y_value = 0;
-    }
+    }else if(PULSE_data[RF].TIME_Y < 0){
+				PULSE_data[RF].TIME_Y = PULSE_data[RF].TIME_Y_N;
+        PULSE_data[RF].TIME_Y_value = 0;
+		}
     else if(PULSE_data[RF].TIME_Y <= (PULSE_data[RF].TIME_Y_N/4 *1) ){
         float k = PULSE_data[RF].TIME_Y_MAX/(PULSE_data[RF].TIME_Y_N/4);
         PULSE_data[RF].TIME_Y_value = PULSE_data[RF].TIME_Y * k;
@@ -113,7 +119,10 @@ void PULSE_UPDATE(float spd){
     if(PULSE_data[RB].TIME_X >= PULSE_data[RB].TIME_X_N*4/4 * 1){
         PULSE_data[RB].TIME_X = 0;
         PULSE_data[RB].TIME_X_value = 0;
-    }
+    }else if(PULSE_data[RB].TIME_X < 0){
+				PULSE_data[RB].TIME_X = PULSE_data[RB].TIME_X_N;
+        PULSE_data[RB].TIME_X_value = 0;
+		}
     else if(PULSE_data[RB].TIME_X <= (PULSE_data[RB].TIME_X_N/4 *1) ){
         float k = PULSE_data[RB].TIME_X_MAX/(PULSE_data[RB].TIME_X_N/4);
         PULSE_data[RB].TIME_X_value = PULSE_data[RB].TIME_X * k;
@@ -135,6 +144,10 @@ void PULSE_UPDATE(float spd){
         PULSE_data[RB].TIME_Y = 0;
         PULSE_data[RB].TIME_Y_value = 0;
     }
+		else if(PULSE_data[RB].TIME_Y < 0){
+				PULSE_data[RB].TIME_Y = PULSE_data[RB].TIME_Y_N;
+        PULSE_data[RB].TIME_Y_value = 0;
+		}
     else if(PULSE_data[RB].TIME_Y <= (PULSE_data[RB].TIME_Y_N/4 *1) ){
         float k = PULSE_data[RB].TIME_Y_MAX/(PULSE_data[RB].TIME_Y_N/4);
         PULSE_data[RB].TIME_Y_value = PULSE_data[RB].TIME_Y * k;
@@ -156,6 +169,10 @@ void PULSE_UPDATE(float spd){
         PULSE_data[LF].TIME_X = 0;
         PULSE_data[LF].TIME_X_value = 0;
     }
+		else if(PULSE_data[LF].TIME_X < 0){
+				PULSE_data[LF].TIME_X = PULSE_data[LF].TIME_X_N;
+        PULSE_data[LF].TIME_X_value = 0;
+		}
     else if(PULSE_data[LF].TIME_X <= (PULSE_data[LF].TIME_X_N/4 *1) ){
         float k = PULSE_data[LF].TIME_X_MAX/(PULSE_data[LF].TIME_X_N/4);
         PULSE_data[LF].TIME_X_value = PULSE_data[LF].TIME_X * k;
@@ -177,6 +194,10 @@ void PULSE_UPDATE(float spd){
         PULSE_data[LF].TIME_Y = 0;
         PULSE_data[LF].TIME_Y_value = 0;
     }
+		else if(PULSE_data[LF].TIME_Y < 0){
+				PULSE_data[LF].TIME_Y = PULSE_data[LF].TIME_Y_N;
+        PULSE_data[LF].TIME_Y_value = 0;
+		}
     else if(PULSE_data[LF].TIME_Y <= (PULSE_data[LF].TIME_Y_N/4 *1) ){
         float k = PULSE_data[LF].TIME_Y_MAX/(PULSE_data[LF].TIME_Y_N/4);
         PULSE_data[LF].TIME_Y_value = PULSE_data[LF].TIME_Y * k;
@@ -199,6 +220,10 @@ void PULSE_UPDATE(float spd){
         PULSE_data[LB].TIME_X = 0;
         PULSE_data[LB].TIME_X_value = 0;
     }
+		else if(PULSE_data[LB].TIME_X < 0){
+				PULSE_data[LB].TIME_X = PULSE_data[LB].TIME_X_N;
+        PULSE_data[LB].TIME_X_value = 0;
+		}
     else if(PULSE_data[LB].TIME_X <= (PULSE_data[LB].TIME_X_N/4 *1) ){
         float k = PULSE_data[LB].TIME_X_MAX/(PULSE_data[LB].TIME_X_N/4);
         PULSE_data[LB].TIME_X_value = PULSE_data[LB].TIME_X * k;
@@ -220,6 +245,10 @@ void PULSE_UPDATE(float spd){
         PULSE_data[LB].TIME_Y = 0;
         PULSE_data[LB].TIME_Y_value = 0;
     }
+		else if(PULSE_data[LB].TIME_Y < 0){
+				PULSE_data[LB].TIME_Y = PULSE_data[LB].TIME_Y_N;
+        PULSE_data[LB].TIME_Y_value = 0;
+		}
     else if(PULSE_data[LB].TIME_Y <= (PULSE_data[LB].TIME_Y_N/4 *1) ){
         float k = PULSE_data[LB].TIME_Y_MAX/(PULSE_data[LB].TIME_Y_N/4);
         PULSE_data[LB].TIME_Y_value = PULSE_data[LB].TIME_Y * k;

@@ -44,7 +44,7 @@ wirelesscontrol_partmotor_ini\freertos.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/st
 wirelesscontrol_partmotor_ini\freertos.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os.h
 wirelesscontrol_partmotor_ini\freertos.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h
 wirelesscontrol_partmotor_ini\freertos.o: ../CONTROLLER/CONTROLLER0.h
-wirelesscontrol_partmotor_ini\freertos.o: ../CONTROLLER/rtwtypes.h
+wirelesscontrol_partmotor_ini\freertos.o: F:\keil\ARM\ARMCC\Bin\..\include\stdbool.h
 wirelesscontrol_partmotor_ini\freertos.o: ../Core/Inc/can.h
 wirelesscontrol_partmotor_ini\freertos.o: ../SBUS/sbus.h
 wirelesscontrol_partmotor_ini\freertos.o: ../HT03/HT03.h

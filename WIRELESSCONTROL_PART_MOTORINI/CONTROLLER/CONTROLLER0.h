@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'CONTROLLER0'.
  *
- * Model version                  : 1.12
+ * Model version                  : 1.29
  * Simulink Coder version         : 9.9 (R2023a) 19-Nov-2022
- * C/C++ source code generated on : Thu May  2 02:41:08 2024
+ * C/C++ source code generated on : Sat May 11 20:42:14 2024
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM Cortex-M
@@ -23,7 +23,8 @@
 #define RTW_HEADER_CONTROLLER0_h_
 #ifndef CONTROLLER0_COMMON_INCLUDES_
 #define CONTROLLER0_COMMON_INCLUDES_
-#include "rtwtypes.h"
+#include <stdbool.h>
+#include <stdint.h>
 #endif                                 /* CONTROLLER0_COMMON_INCLUDES_ */
 
 /* Macros for accessing real-time model data structure */
@@ -40,31 +41,33 @@ typedef struct tag_RTM RT_MODEL;
 
 /* External inputs (root inport signals with default storage) */
 typedef struct {
-  real_T RF_X;                         /* '<Root>/RF_X' */
-  real_T RF_Y;                         /* '<Root>/RF_Y' */
-  real_T RB_X;                         /* '<Root>/RB_X' */
-  real_T RB_Y;                         /* '<Root>/RB_Y' */
-  real_T LF_X;                         /* '<Root>/LF_X' */
-  real_T LF_Y;                         /* '<Root>/LF_Y' */
-  real_T LB_X;                         /* '<Root>/LB_X' */
-  real_T LB_Y;                         /* '<Root>/LB_Y' */
+  float RF_X;                          /* '<Root>/RF_X' */
+  float RF_Y;                          /* '<Root>/RF_Y' */
+  float RB_X;                          /* '<Root>/RB_X' */
+  float RB_Y;                          /* '<Root>/RB_Y' */
+  float LF_X;                          /* '<Root>/LF_X' */
+  float LF_Y;                          /* '<Root>/LF_Y' */
+  float LB_X;                          /* '<Root>/LB_X' */
+  float LB_Y;                          /* '<Root>/LB_Y' */
+  float R_LENGTH;                      /* '<Root>/R_LENGTH' */
+  float L_LENGTH;                      /* '<Root>/L_LENGTH' */
 } ExtU;
 
 /* External outputs (root outports fed by signals with default storage) */
 typedef struct {
-  real_T RF_theta_out;                 /* '<Root>/RF_theta_out' */
-  real_T RF_theta_in;                  /* '<Root>/RF_theta_in' */
-  real_T RB_theta_out;                 /* '<Root>/RB_theta_out' */
-  real_T RB_theta_in;                  /* '<Root>/RB_theta_in' */
-  real_T LF_theta_out;                 /* '<Root>/LF_theta_out' */
-  real_T LF_theta_in;                  /* '<Root>/LF_theta_in' */
-  real_T LB_theta_out;                 /* '<Root>/LB_theta_out' */
-  real_T LB_theta_in;                  /* '<Root>/LB_theta_in' */
+  float RF_theta_out;                  /* '<Root>/RF_theta_out' */
+  float RF_theta_in;                   /* '<Root>/RF_theta_in' */
+  float RB_theta_out;                  /* '<Root>/RB_theta_out' */
+  float RB_theta_in;                   /* '<Root>/RB_theta_in' */
+  float LF_theta_out;                  /* '<Root>/LF_theta_out' */
+  float LF_theta_in;                   /* '<Root>/LF_theta_in' */
+  float LB_theta_out;                  /* '<Root>/LB_theta_out' */
+  float LB_theta_in;                   /* '<Root>/LB_theta_in' */
 } ExtY;
 
 /* Real-time Model Data Structure */
 struct tag_RTM {
-  const char_T * volatile errorStatus;
+  const char * volatile errorStatus;
 };
 
 /* External inputs (root inport signals with default storage) */
@@ -79,6 +82,13 @@ extern void CONTROLLER0_step(void);
 
 /* Real-time Model object */
 extern RT_MODEL *const rtM;
+
+/*-
+ * These blocks were eliminated from the model due to optimizations:
+ *
+ * Block '<S2>/&#x6B65;&#x957F;2' : Unused code path elimination
+ * Block '<S3>/&#x6B65;&#x957F;2' : Unused code path elimination
+ */
 
 /*-
  * The generated code includes comments that allow you to trace directly

@@ -4,7 +4,6 @@
 "wirelesscontrol_partmotor_ini\gpio.o"
 "wirelesscontrol_partmotor_ini\freertos.o"
 "wirelesscontrol_partmotor_ini\can.o"
-"wirelesscontrol_partmotor_ini\tim.o"
 "wirelesscontrol_partmotor_ini\usart.o"
 "wirelesscontrol_partmotor_ini\stm32f4xx_it.o"
 "wirelesscontrol_partmotor_ini\stm32f4xx_hal_msp.o"

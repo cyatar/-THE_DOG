@@ -43,9 +43,13 @@ extern PULSE PULSE_data[4];
 
 extern int stauts ;
 
+extern float CH3,CH2,CH1;
+
+int update = 10;
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
+typedef StaticTask_t osStaticThreadDef_t;
 /* USER CODE BEGIN PTD */
 
 /* USER CODE END PTD */
@@ -78,6 +82,25 @@ const osThreadAttr_t myTask02_attributes = {
   .stack_size = 128 * 4,
   .priority = (osPriority_t) osPriorityLow,
 };
+/* Definitions for MatlabFuction */
+osThreadId_t MatlabFuctionHandle;
+uint32_t MatlabFuctionBuffer[ 256 ];
+osStaticThreadDef_t MatlabFuctionControlBlock;
+const osThreadAttr_t MatlabFuction_attributes = {
+  .name = "MatlabFuction",
+  .cb_mem = &MatlabFuctionControlBlock,
+  .cb_size = sizeof(MatlabFuctionControlBlock),
+  .stack_mem = &MatlabFuctionBuffer[0],
+  .stack_size = sizeof(MatlabFuctionBuffer),
+  .priority = (osPriority_t) osPriorityHigh,
+};
+/* Definitions for myTask04 */
+osThreadId_t myTask04Handle;
+const osThreadAttr_t myTask04_attributes = {
+  .name = "myTask04",
+  .stack_size = 128 * 4,
+  .priority = (osPriority_t) osPriorityRealtime,
+};
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
@@ -86,6 +109,8 @@ const osThreadAttr_t myTask02_attributes = {
 
 void StartDefaultTask(void *argument);
 void StartTask02(void *argument);
+void StartTask03(void *argument);
+void StartTask04(void *argument);
 
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
@@ -121,6 +146,12 @@ void MX_FREERTOS_Init(void) {
 
   /* creation of myTask02 */
   myTask02Handle = osThreadNew(StartTask02, NULL, &myTask02_attributes);
+
+  /* creation of MatlabFuction */
+  MatlabFuctionHandle = osThreadNew(StartTask03, NULL, &MatlabFuction_attributes);
+
+  /* creation of myTask04 */
+  myTask04Handle = osThreadNew(StartTask04, NULL, &myTask04_attributes);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
@@ -165,26 +196,137 @@ void StartTask02(void *argument)
   {
 		
 	 if(stauts ==1){
+		// CanComm_ControlCmd(CMD_MOTOR_MODE,0x07,hcan1);
 			CanComm_SendControlPara(rtY.RF_theta_in,0,7.5,0.2,0,0x07,hcan2);
 			osDelay(1);
+	//	 CanComm_ControlCmd(CMD_MOTOR_MODE,0x05,hcan1);
 			CanComm_SendControlPara(rtY.RF_theta_out,0,7.5,0.2,0,0x05,hcan2);
 			osDelay(1);
+		// CanComm_ControlCmd(CMD_MOTOR_MODE,0x06,hcan1);
 			CanComm_SendControlPara(rtY.RB_theta_in,0,7.5,0.2,0,0x06,hcan2);
 			osDelay(1);
+	//	 CanComm_ControlCmd(CMD_MOTOR_MODE,0x04,hcan1);
 			CanComm_SendControlPara(rtY.RB_theta_out,0,7.5,0.2,0,0x04,hcan1);
 			osDelay(1);
+	//	 CanComm_ControlCmd(CMD_MOTOR_MODE,0x01,hcan1);
 			CanComm_SendControlPara(rtY.LB_theta_in,0,7.5,0.2,0,0x01,hcan1);
 			 osDelay(1);
+	//	 CanComm_ControlCmd(CMD_MOTOR_MODE,0x02,hcan1);
 			CanComm_SendControlPara(rtY.LB_theta_out,0,7.5,0.2,0,0x02,hcan1);
 			 osDelay(1);
+	//	 CanComm_ControlCmd(CMD_MOTOR_MODE,0x08,hcan1);
 			CanComm_SendControlPara(rtY.LF_theta_in,0,7.5,0.2,0,0x08,hcan2);
 			osDelay(1);
+	//		CanComm_ControlCmd(CMD_MOTOR_MODE,0x03,hcan1);
 			 CanComm_SendControlPara(rtY.LF_theta_out,0,7.5,0.2,0,0x03,hcan1);
 			osDelay(1);
 	 }
-    osDelay(5);
+	 if( update == 10){
+		update = 0;
+		CanMotorUpdate_NULL();
+	 }else{
+		update ++ ;
+	 }
+	 
+    osDelay(10);
   }
   /* USER CODE END StartTask02 */
+}
+
+/* USER CODE BEGIN Header_StartTask03 */
+/**
+* @brief Function implementing the MatlabFuction thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_StartTask03 */
+void StartTask03(void *argument)
+{
+  /* USER CODE BEGIN StartTask03 */
+  /* Infinite loop */
+  for(;;)
+  {
+		CONTROLLER0_step();
+    rtU.RF_X = PULSE_data[RF].TIME_X_value;
+    rtU.RF_Y = PULSE_data[RF].TIME_Y_value;
+
+    rtU.RB_X = PULSE_data[RB].TIME_X_value;
+    rtU.RB_Y = PULSE_data[RB].TIME_Y_value;
+
+    rtU.LF_X = PULSE_data[LF].TIME_X_value;
+    rtU.LF_Y = PULSE_data[LF].TIME_Y_value;
+
+    rtU.LB_X = PULSE_data[LB].TIME_X_value;
+    rtU.LB_Y = PULSE_data[LB].TIME_Y_value;
+    
+		stauts = 1;
+    osDelay(10);
+  }
+  /* USER CODE END StartTask03 */
+}
+
+/* USER CODE BEGIN Header_StartTask04 */
+/**
+* @brief Function implementing the myTask04 thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_StartTask04 */
+void StartTask04(void *argument)
+{
+  /* USER CODE BEGIN StartTask04 */
+  /* Infinite loop */
+  for(;;)
+  {
+//     CH3 = map(-0.020,0.020,200,1300,SBUS_CH.CH3);
+//		 if(CH3>0.01){
+//			CH3 = 0.01;
+//		 }else if(CH3 <-0.01){
+//			 CH3 = -0.01;
+//		 }
+		
+		if(SBUS_CH.CH3 >1100){
+      CH3 = 0.01;
+    }
+    else if(SBUS_CH.CH3 <300){
+      CH3 = -0.01;
+    }
+    else{
+      CH3 = 0;
+    }
+		
+		if(SBUS_CH.CH2 > 1100){
+      
+			rtU.L_LENGTH = 120;
+			rtU.R_LENGTH = 120;
+    
+		}
+    else if(SBUS_CH.CH2 < 800){
+			
+			rtU.L_LENGTH = -120;
+			rtU.R_LENGTH = -120;
+    }
+ 
+		
+		if(SBUS_CH.CH1 > 900){
+      rtU.L_LENGTH = 120;
+			rtU.R_LENGTH = -120;
+    }
+    else if(SBUS_CH.CH1 <700){
+      rtU.L_LENGTH = -120;
+			rtU.R_LENGTH = 120;
+    }
+  
+		if(SBUS_CH.CH1> 700  &&  SBUS_CH.CH1 < 900 && SBUS_CH.CH2 > 800 &&SBUS_CH.CH2 <1100)
+		{
+			rtU.L_LENGTH = 0;
+			rtU.R_LENGTH = 0;
+		}	
+		
+		PULSE_UPDATE(CH3);
+    osDelay(1);
+  }
+  /* USER CODE END StartTask04 */
 }
 
 /* Private application code --------------------------------------------------*/

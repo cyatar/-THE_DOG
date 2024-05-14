@@ -44,11 +44,10 @@ wirelesscontrol_partmotor_ini\main.o: ../Middlewares/Third_Party/FreeRTOS/Source
 wirelesscontrol_partmotor_ini\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h
 wirelesscontrol_partmotor_ini\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h
 wirelesscontrol_partmotor_ini\main.o: ../Core/Inc/can.h
-wirelesscontrol_partmotor_ini\main.o: ../Core/Inc/tim.h
 wirelesscontrol_partmotor_ini\main.o: ../Core/Inc/usart.h
 wirelesscontrol_partmotor_ini\main.o: ../Core/Inc/gpio.h
 wirelesscontrol_partmotor_ini\main.o: ../SBUS/sbus.h
 wirelesscontrol_partmotor_ini\main.o: ../HT03/HT03.h
 wirelesscontrol_partmotor_ini\main.o: ../IMPULSE/IMPULSE.h
 wirelesscontrol_partmotor_ini\main.o: ../CONTROLLER/CONTROLLER0.h
-wirelesscontrol_partmotor_ini\main.o: ../CONTROLLER/rtwtypes.h
+wirelesscontrol_partmotor_ini\main.o: F:\keil\ARM\ARMCC\Bin\..\include\stdbool.h

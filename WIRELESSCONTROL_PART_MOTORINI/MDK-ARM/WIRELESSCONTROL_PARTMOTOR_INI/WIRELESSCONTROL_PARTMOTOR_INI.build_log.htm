@@ -22,12 +22,12 @@ Dialog DLL:      TCM.DLL V1.48.0.0
  
 <h2>Project:</h2>
 F:\THE_LIBRARY\CODE_BASE\ROBOSERVO\Odrive\TINDALOS_THEDOG\WIRELESSCONTROL_PART_MOTORINI\MDK-ARM\WIRELESSCONTROL_PARTMOTOR_INI.uvprojx
-Project File Date:  05/02/2024
+Project File Date:  05/11/2024
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 7 (build 960)', folder: 'F:\keil\ARM\ARMCC\Bin'
 Build target 'WIRELESSCONTROL_PARTMOTOR_INI'
-compiling main.c...
+compiling freertos.c...
 ../SBUS/sbus.h(61): warning:  #1-D: last line of file ends without a newline
   #endif
 ../HT03/HT03.h(49): warning:  #1295-D: Deprecated declaration can_filter_init - give arg types
@@ -40,13 +40,11 @@ compiling main.c...
   #endif
 ../IMPULSE/IMPULSE.h(39): warning:  #1-D: last line of file ends without a newline
   #endif
-../Core/Src/main.c(253): warning:  #1035-D: single-precision operand implicitly converted to double-precision
-  		 if(CH3>0.01){
-../Core/Src/main.c: 7 warnings, 0 errors
+../Core/Src/freertos.c: 6 warnings, 0 errors
 linking...
-Program Size: Code=35596 RO-data=996 RW-data=204 ZI-data=20620  
+Program Size: Code=32328 RO-data=676 RW-data=224 ZI-data=21536  
 FromELF: creating hex file...
-"WIRELESSCONTROL_PARTMOTOR_INI\WIRELESSCONTROL_PARTMOTOR_INI.axf" - 0 Error(s), 7 Warning(s).
+"WIRELESSCONTROL_PARTMOTOR_INI\WIRELESSCONTROL_PARTMOTOR_INI.axf" - 0 Error(s), 6 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -70,7 +68,7 @@ Package Vendor: Keil
 
    * Component: ARM::CMSIS:CORE:5.5.0
       Include file:  CMSIS\Core\Include\tz_context.h
-Build Time Elapsed:  00:00:02
+Build Time Elapsed:  00:00:01
 </pre>
 </body>
 </html>

@@ -25,10 +25,7 @@ void can_filter_init(void)
     can_filter_st1.FilterBank = 0;
     can_filter_st1.FilterFIFOAssignment = CAN_RX_FIFO0;
 		can_filter_st1.SlaveStartFilterBank = 14;
-  	HAL_CAN_ConfigFilter(&hcan1, &can_filter_st1);
-    HAL_CAN_Start(&hcan1);
-    HAL_CAN_ActivateNotification(&hcan1, CAN_IT_RX_FIFO0_MSG_PENDING);
-
+  	
 	// 
 		CAN_FilterTypeDef can_filter_st2;
     can_filter_st2.FilterActivation = ENABLE;
@@ -39,10 +36,15 @@ void can_filter_init(void)
     can_filter_st2.FilterMaskIdHigh = 0x0000;
     can_filter_st2.FilterMaskIdLow = 0x0000;
     can_filter_st2.FilterBank = 14;
+	
     can_filter_st2.FilterFIFOAssignment = CAN_RX_FIFO0;
-		can_filter_st2.SlaveStartFilterBank = 28;
+  	can_filter_st2.SlaveStartFilterBank = 28;
+		
+		HAL_CAN_ConfigFilter(&hcan1, &can_filter_st1);
   	HAL_CAN_ConfigFilter(&hcan2, &can_filter_st2);
-    HAL_CAN_Start(&hcan2);
+		HAL_CAN_Start(&hcan1);
+		HAL_CAN_Start(&hcan2);
+    HAL_CAN_ActivateNotification(&hcan1, CAN_IT_RX_FIFO0_MSG_PENDING);
     HAL_CAN_ActivateNotification(&hcan2, CAN_IT_RX_FIFO0_MSG_PENDING);
 	
 }
@@ -336,7 +338,9 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
     {
         HAL_CAN_GetRxMessage(hcan, CAN_RX_FIFO0, &RxHead, data);
         if(data[0] <= 0x08){
-            motor_data[data[0]-1].motorID = data[0];
+            if(motor_data[data[0]-1].motorID != data[0]){
+						   motor_data[data[0]-1].motorID = data[0];
+						}
 						uint16_t position = (data[2] << 8)|data[1];
 						motor_data[data[0]-1].position = uint_to_float((data[1] << 8) | data[2], P_MIN, P_MAX, 16);				
             motor_data[data[0]-1].velocity = uint_to_float((data[3] << 4) | (data[4] >> 4), V_MIN, V_MAX, 12);
@@ -348,7 +352,10 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 		}else if( hcan == &hcan2){
 			HAL_CAN_GetRxMessage(hcan, CAN_RX_FIFO0, &RxHead, data);
         if(data[0] <= 0x08){           
-            motor_data[data[0]-1].motorID = data[0];
+						
+						if(motor_data[data[0]-1].motorID != data[0]){
+						   motor_data[data[0]-1].motorID = data[0];
+						}
 						uint16_t position = (data[2] << 8)|data[1];
 						motor_data[data[0]-1].position = uint_to_float((data[1] << 8) | data[2], P_MIN, P_MAX, 16);
             motor_data[data[0]-1].velocity = uint_to_float((data[3] << 4) | (data[4] >> 4), V_MIN, V_MAX, 12);
@@ -360,4 +367,7 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
     
    
 }
+
+
+
 
