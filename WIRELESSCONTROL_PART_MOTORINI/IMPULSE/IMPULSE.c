@@ -1,8 +1,6 @@
 #include "IMPULSE.h"
 
 
-
-
 PULSE PULSE_data[4];
 
 
